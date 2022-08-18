@@ -6,6 +6,8 @@
 #include "TextureResource.h"
 #include "CanvasItem.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Blueprint/UserWidget.h"
+#include "UI/MainUI.h"
 
 ABohdanPysko_TestHUD::ABohdanPysko_TestHUD()
 {
@@ -29,4 +31,28 @@ void ABohdanPysko_TestHUD::DrawHUD()
 	FCanvasTileItem TileItem( CrosshairDrawPosition, CrosshairTex->Resource, FLinearColor::White);
 	TileItem.BlendMode = SE_BLEND_Translucent;
 	Canvas->DrawItem( TileItem );
+}
+
+void ABohdanPysko_TestHUD::BeginPlay()
+{
+	Super::BeginPlay();
+
+	if (ensure (MainUI_BPClass))
+	{
+		MainUIWidget = Cast<UMainUI>(CreateWidget<UUserWidget>(GetWorld(), MainUI_BPClass));
+		if (ensure(MainUIWidget))
+		{
+			MainUIWidget->AddToViewport();
+		}
+	}
+}
+
+void ABohdanPysko_TestHUD::UpdateScore(const int Score)
+{
+	MainUIWidget->UpdateScore(Score);
+}
+
+void ABohdanPysko_TestHUD::UpdateWaveIndex(const int Score)
+{
+	MainUIWidget->UpdateWaveIndex(Score);
 }

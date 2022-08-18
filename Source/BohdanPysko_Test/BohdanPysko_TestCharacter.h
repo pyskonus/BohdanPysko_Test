@@ -14,6 +14,8 @@ class UMotionControllerComponent;
 class UAnimMontage;
 class USoundBase;
 
+class UDestructibleSpawnerComp;
+
 UCLASS(config=Game)
 class ABohdanPysko_TestCharacter : public ACharacter
 {
@@ -31,14 +33,6 @@ class ABohdanPysko_TestCharacter : public ACharacter
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 	USceneComponent* FP_MuzzleLocation;
 
-	/** Gun mesh: VR view (attached to the VR controller directly, no arm, just the actual gun) */
-	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
-	USkeletalMeshComponent* VR_Gun;
-
-	/** Location on VR gun mesh where projectiles should spawn. */
-	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
-	USceneComponent* VR_MuzzleLocation;
-
 	/** First person camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FirstPersonCameraComponent;
@@ -50,6 +44,12 @@ class ABohdanPysko_TestCharacter : public ACharacter
 	/** Motion controller (left hand) */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UMotionControllerComponent* L_MotionController;
+
+	/*UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UDestructibleSpawnerComp> SpawnerCompBPClass;*/
+	
+	UPROPERTY(EditDefaultsOnly)
+	UDestructibleSpawnerComp* SpawnerComp;
 
 public:
 	ABohdanPysko_TestCharacter();
@@ -107,6 +107,8 @@ public:
 	USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
 	/** Returns FirstPersonCameraComponent subobject **/
 	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
+
+	void NotifySpawnerComp(bool Close);		/// Input bool tells if it was a sphere within PassRadius
 
 };
 

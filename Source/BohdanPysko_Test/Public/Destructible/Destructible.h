@@ -9,6 +9,7 @@
 
 class USphereComponent;
 class UNiagaraSystem;
+class USoundCue;
 
 UCLASS()
 class BOHDANPYSKO_TEST_API ADestructible : public AActor
@@ -41,6 +42,14 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Custom Properties")
 	UNiagaraSystem* Effect;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Custom Properties")
+	USoundCue* ExplosionCue;
+
 	UFUNCTION()
 	void Explode(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
+public:
+	bool Close;			/// if this sphere was spawned within PassRadius
+
+	void SetVisualScale(const float Scale);	/// Related to additional task 3
 };
